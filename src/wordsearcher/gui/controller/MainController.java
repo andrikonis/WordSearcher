@@ -17,9 +17,11 @@ import javafx.scene.control.TextField;
 import javafx.scene.control.ToggleGroup;
 import wordsearcher.bll.BeginsWithSearch;
 import wordsearcher.bll.ContainsSearch;
-import wordsearcher.bll.IWordComparer;
+import wordsearcher.bll.EndsWithSearch;
+import wordsearcher.bll.ExactSearch;
 import wordsearcher.bll.WordManager;
 import wordsearcher.gui.model.WordModel;
+import wordsearcher.bll.IWordSearcher;
 
 /**
  *
@@ -77,21 +79,25 @@ public class MainController implements Initializable {
         try {
             String query = txtQuery.getText().trim();
             List<String> searchResult = null;
-            if (radioBegin.isSelected()) {
-                searchResult = wordManager.search(new BeginsWithSearch(query));
-            } else if (radioContains.isSelected()) {
-                IWordComparer iWrdCmp = new ContainsSearch(query);
-                searchResult = wordManager.search(iWrdCmp);
-            } else if (radioEnds.isSelected()) {
-//                searchResult = wordManager.endsWithSearch(query);
-            } else {
-//                searchResult = wordManager.exactSearch(query);
+            IWordSearcher searchStrategy;
+            if (radioBegin.isSelected()) 
+            {
+                searchStrategy = new BeginsWithSearch(query, true);
+            } else if (radioContains.isSelected()) 
+            {
+                searchStrategy = new ContainsSearch(query, false);
+            } else if (radioEnds.isSelected()) 
+            {
+                searchStrategy = new EndsWithSearch(query, true);
+            } else 
+            {
+                searchStrategy = new ExactSearch(query, true);
             }
+            searchResult = wordManager.search(searchStrategy);
             model.setWords(searchResult);
         } catch (Exception ex) {
             System.out.println(ex.getMessage());
         }
-
     }
 
     /**

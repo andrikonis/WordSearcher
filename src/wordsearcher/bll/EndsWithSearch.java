@@ -9,18 +9,18 @@ package wordsearcher.bll;
  *
  * @author pgn
  */
-public class BeginsWithSearch extends QuerySearchTemplate {
+public class EndsWithSearch extends QuerySearchTemplate {
 
-    public BeginsWithSearch(String query, boolean caseSensitive) {
+    public EndsWithSearch(String query, boolean caseSensitive) {
         super(query, caseSensitive);
     }
 
     @Override
     public boolean compare(String word) {
-        if (!caseSensitive) {
-            return word.toLowerCase().startsWith(query.toLowerCase());
+        if (caseSensitive) {
+            return word.endsWith(query);
         } else {
-            return word.startsWith(query);
+            return word.toLowerCase().endsWith(query.toLowerCase());
         }
     }
 

@@ -9,7 +9,7 @@ package wordsearcher.bll;
  *
  * @author pgn
  */
-public interface IWordComparer {
+public interface IWordSearcher {
     
     public boolean compare(String word);
     
