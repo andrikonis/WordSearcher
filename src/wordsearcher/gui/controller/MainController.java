@@ -5,7 +5,6 @@
  */
 package wordsearcher.gui.controller;
 
-import java.io.IOException;
 import java.net.URL;
 import java.util.List;
 import java.util.ResourceBundle;
@@ -13,7 +12,9 @@ import javafx.event.ActionEvent;
 import javafx.fxml.FXML;
 import javafx.fxml.Initializable;
 import javafx.scene.control.ListView;
+import javafx.scene.control.RadioButton;
 import javafx.scene.control.TextField;
+import javafx.scene.control.ToggleGroup;
 import wordsearcher.bll.WordManager;
 import wordsearcher.gui.model.WordModel;
 
@@ -28,6 +29,21 @@ public class MainController implements Initializable {
 
     @FXML
     private TextField txtQuery;
+
+    @FXML
+    private RadioButton radioBegin;
+
+    @FXML
+    private ToggleGroup SearchTypes;
+
+    @FXML
+    private RadioButton radioContains;
+
+    @FXML
+    private RadioButton radioEnds;
+
+    @FXML
+    private RadioButton radioExact;
 
     /**
      * The word model (Part of the MVC pattern. Resides in the GUI layer.
@@ -55,15 +71,23 @@ public class MainController implements Initializable {
      */
     @FXML
     void handleSearch(ActionEvent event) {
-        try 
-        {
+        try {
             String query = txtQuery.getText().trim();
-            List<String> searchResult = wordManager.beginSearch(query);
+            List<String> searchResult = null;
+            if (radioBegin.isSelected()) {
+                searchResult = wordManager.beginSearch(query);
+            } else if (radioContains.isSelected()) {
+                searchResult = wordManager.containsSearch(query);
+            } else if (radioEnds.isSelected()) {
+                searchResult = wordManager.endsWithSearch(query);
+            } else {
+                searchResult = wordManager.exactSearch(query);
+            }
             model.setWords(searchResult);
-        } catch (Exception ex) 
-        {
+        } catch (Exception ex) {
             System.out.println(ex.getMessage());
         }
+
     }
 
     /**

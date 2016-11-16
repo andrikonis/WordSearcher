@@ -54,6 +54,18 @@ public class WordManager {
         return result;
     }
 
+    public List<String> containsSearch(String query) {
+        return null;
+    }
+
+    public List<String> endsWithSearch(String query) {
+        throw new UnsupportedOperationException("Not supported yet."); //To change body of generated methods, choose Tools | Templates.
+    }
+
+    public List<String> exactSearch(String query) {
+        throw new UnsupportedOperationException("Not supported yet."); //To change body of generated methods, choose Tools | Templates.
+    }
+
     
     
 }
