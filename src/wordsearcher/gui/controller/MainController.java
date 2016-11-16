@@ -15,6 +15,9 @@ import javafx.scene.control.ListView;
 import javafx.scene.control.RadioButton;
 import javafx.scene.control.TextField;
 import javafx.scene.control.ToggleGroup;
+import wordsearcher.bll.BeginsWithSearch;
+import wordsearcher.bll.ContainsSearch;
+import wordsearcher.bll.IWordComparer;
 import wordsearcher.bll.WordManager;
 import wordsearcher.gui.model.WordModel;
 
@@ -75,13 +78,14 @@ public class MainController implements Initializable {
             String query = txtQuery.getText().trim();
             List<String> searchResult = null;
             if (radioBegin.isSelected()) {
-                searchResult = wordManager.beginSearch(query);
+                searchResult = wordManager.search(new BeginsWithSearch(query));
             } else if (radioContains.isSelected()) {
-                searchResult = wordManager.containsSearch(query);
+                IWordComparer iWrdCmp = new ContainsSearch(query);
+                searchResult = wordManager.search(iWrdCmp);
             } else if (radioEnds.isSelected()) {
-                searchResult = wordManager.endsWithSearch(query);
+//                searchResult = wordManager.endsWithSearch(query);
             } else {
-                searchResult = wordManager.exactSearch(query);
+//                searchResult = wordManager.exactSearch(query);
             }
             model.setWords(searchResult);
         } catch (Exception ex) {

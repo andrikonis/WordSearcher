@@ -36,36 +36,26 @@ public class WordManager {
     }
 
     /**
-     * Performs the search for words 
-     * @param query
-     * @return 
+     * Searches for all words that matches the given 
+     * @param comparer
+     * @return
+     * @throws FileNotFoundException 
      */
-    public List<String> beginSearch(String query) throws FileNotFoundException 
+    public List<String> search(IWordComparer comparer) throws FileNotFoundException
     {
         List<String> allWords = getAllWords();
         List<String> result = new ArrayList<>();
         for(String word : allWords)
         {
-            if(word.startsWith(query))
+            if(comparer.compare(word))
             {
                 result.add(word);
             }
         }
         return result;
     }
-
-    public List<String> containsSearch(String query) {
-        return null;
-    }
-
-    public List<String> endsWithSearch(String query) {
-        throw new UnsupportedOperationException("Not supported yet."); //To change body of generated methods, choose Tools | Templates.
-    }
-
-    public List<String> exactSearch(String query) {
-        throw new UnsupportedOperationException("Not supported yet."); //To change body of generated methods, choose Tools | Templates.
-    }
-
+    
+    
     
     
 }
