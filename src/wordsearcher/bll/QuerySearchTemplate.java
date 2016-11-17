@@ -9,14 +9,15 @@ package wordsearcher.bll;
  *
  * @author pgn
  */
-public abstract class SearchTemplate implements IWordComparer
+public abstract class QuerySearchTemplate implements IWordSearcher
 {
     protected final String query;
     protected final boolean caseSensitive;
 
-    public SearchTemplate(String query, boolean caseSensitive) {
+    public QuerySearchTemplate(String query, boolean caseSensitive) {
         this.query = query;
         this.caseSensitive = caseSensitive;
     }
+    
     
 }

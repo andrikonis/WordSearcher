@@ -9,17 +9,19 @@ package wordsearcher.bll;
  *
  * @author pgn
  */
-public class ContainsSearch implements IWordComparer{
+public class ContainsSearch extends QuerySearchTemplate {
 
-    private final String query;
-
-    public ContainsSearch(String query) {
-        this.query = query;
+    public ContainsSearch(String query, boolean caseSensitive) {
+        super(query, caseSensitive);
     }
-    
+
     @Override
     public boolean compare(String word) {
-        return word.contains(query);
+        if (caseSensitive) {
+            return word.contains(query);
+        } else {
+            return word.toLowerCase().contains(query.toLowerCase());
+        }
     }
-    
+
 }

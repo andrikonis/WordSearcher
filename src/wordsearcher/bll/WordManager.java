@@ -41,7 +41,7 @@ public class WordManager {
      * @return
      * @throws FileNotFoundException 
      */
-    public List<String> search(IWordComparer comparer) throws FileNotFoundException
+    public List<String> search(IWordSearcher comparer) throws FileNotFoundException
     {
         List<String> allWords = getAllWords();
         List<String> result = new ArrayList<>();
