@@ -8,9 +8,12 @@ package wordsearcher.gui.controller;
 import java.net.URL;
 import java.util.List;
 import java.util.ResourceBundle;
+import javafx.collections.FXCollections;
 import javafx.event.ActionEvent;
 import javafx.fxml.FXML;
 import javafx.fxml.Initializable;
+import javafx.scene.control.CheckBox;
+import javafx.scene.control.ComboBox;
 import javafx.scene.control.ListView;
 import javafx.scene.control.RadioButton;
 import javafx.scene.control.TextField;
@@ -50,6 +53,9 @@ public class MainController implements Initializable {
     @FXML
     private RadioButton radioExact;
 
+    @FXML
+    private CheckBox chkCaseSensitive;
+
     /**
      * The word model (Part of the MVC pattern. Resides in the GUI layer.
      */
@@ -60,6 +66,9 @@ public class MainController implements Initializable {
      * operations.
      */
     private WordManager wordManager;
+
+    @FXML
+    private ComboBox<String> comboLimitation;
 
     /**
      * Constructs the Controller.
@@ -80,20 +89,27 @@ public class MainController implements Initializable {
             String query = txtQuery.getText().trim();
             List<String> searchResult = null;
             IWordSearcher searchStrategy;
-            if (radioBegin.isSelected()) 
-            {
-                searchStrategy = new BeginsWithSearch(query, true);
-            } else if (radioContains.isSelected()) 
-            {
-                searchStrategy = new ContainsSearch(query, false);
-            } else if (radioEnds.isSelected()) 
-            {
-                searchStrategy = new EndsWithSearch(query, true);
-            } else 
-            {
-                searchStrategy = new ExactSearch(query, true);
+            boolean isCaseSensitive = chkCaseSensitive.isSelected();
+            if (radioBegin.isSelected()) {
+                searchStrategy = new BeginsWithSearch(query, isCaseSensitive);
+            } else if (radioContains.isSelected()) {
+                searchStrategy = new ContainsSearch(query, isCaseSensitive);
+            } else if (radioEnds.isSelected()) {
+                searchStrategy = new EndsWithSearch(query, isCaseSensitive);
+            } else {
+                searchStrategy = new ExactSearch(query, isCaseSensitive);
             }
             searchResult = wordManager.search(searchStrategy);
+
+            String limit = comboLimitation.getValue();
+            try 
+            {
+                int intLimit = Integer.parseInt(limit);
+                searchResult = searchResult.subList(0, intLimit);
+            } catch (NumberFormatException | IndexOutOfBoundsException nfe) {
+                //Do nothing
+            }
+            
             model.setWords(searchResult);
         } catch (Exception ex) {
             System.out.println(ex.getMessage());
@@ -108,6 +124,10 @@ public class MainController implements Initializable {
      */
     @Override
     public void initialize(URL url, ResourceBundle rb) {
+
+        comboLimitation.setItems(FXCollections.observableArrayList("No limit", "10", "20", "50", "100"));
+        comboLimitation.getSelectionModel().select(0);
+
         //Databinding:
         lstWords.setItems(model.getWords());
         try {

@@ -19,5 +19,4 @@ public abstract class QuerySearchTemplate implements IWordSearcher
         this.caseSensitive = caseSensitive;
     }
     
-    
 }
