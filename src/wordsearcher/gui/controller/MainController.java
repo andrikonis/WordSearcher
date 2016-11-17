@@ -14,6 +14,7 @@ import javafx.fxml.FXML;
 import javafx.fxml.Initializable;
 import javafx.scene.control.CheckBox;
 import javafx.scene.control.ComboBox;
+import javafx.scene.control.Label;
 import javafx.scene.control.ListView;
 import javafx.scene.control.RadioButton;
 import javafx.scene.control.TextField;
@@ -69,6 +70,8 @@ public class MainController implements Initializable {
 
     @FXML
     private ComboBox<String> comboLimitation;
+    @FXML
+    private Label lblResultCount;
 
     /**
      * Constructs the Controller.
@@ -109,7 +112,6 @@ public class MainController implements Initializable {
             } catch (NumberFormatException | IndexOutOfBoundsException nfe) {
                 //Do nothing
             }
-            
             model.setWords(searchResult);
         } catch (Exception ex) {
             System.out.println(ex.getMessage());
@@ -130,6 +132,8 @@ public class MainController implements Initializable {
 
         //Databinding:
         lstWords.setItems(model.getWords());
+        lblResultCount.textProperty().bind(model.getCount());
+        
         try {
             List<String> allWords = wordManager.getAllWords();
             model.setWords(allWords);
