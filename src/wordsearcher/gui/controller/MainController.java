@@ -132,7 +132,7 @@ public class MainController implements Initializable {
 
         //Databinding:
         lstWords.setItems(model.getWords());
-        lblResultCount.textProperty().bind(model.getCount());
+        lblResultCount.textProperty().bind(model.getCount().asString());
         
         try {
             List<String> allWords = wordManager.getAllWords();

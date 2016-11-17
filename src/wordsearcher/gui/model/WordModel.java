@@ -6,6 +6,8 @@
 package wordsearcher.gui.model;
 
 import java.util.List;
+import javafx.beans.property.IntegerProperty;
+import javafx.beans.property.SimpleIntegerProperty;
 import javafx.beans.property.SimpleStringProperty;
 import javafx.beans.property.StringProperty;
 import javafx.collections.FXCollections;
@@ -22,12 +24,15 @@ public class WordModel {
      */
     private final ObservableList<String> items;
     
-    private final StringProperty count;
+    /**
+     * The count of the search results
+     */
+    private final IntegerProperty count;
 
     public WordModel() 
     {
         items = FXCollections.observableArrayList();
-        count = new SimpleStringProperty("N/A");
+        count = new SimpleIntegerProperty(-1);
     }
 
     /**
@@ -38,7 +43,7 @@ public class WordModel {
         return items;
     }
 
-    public StringProperty getCount() {
+    public IntegerProperty getCount() {
         return count;
     }
 
@@ -52,7 +57,7 @@ public class WordModel {
     {
         items.clear();
         items.addAll(words);
-        count.set(items.size() + "");
+        count.set(items.size());
     }
     
 }
